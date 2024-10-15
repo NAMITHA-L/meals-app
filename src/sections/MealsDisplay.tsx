@@ -1,14 +1,22 @@
 import { useContext, useState } from 'react';
 import { MealsContext } from '../context/MealsContext';
+<<<<<<< HEAD
 import { MealsContextType } from '../lib/types';
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
+=======
+import { MealsContextType, MealType } from '../lib/types';
+
+>>>>>>> myfork/main
 import clsx from 'clsx';
+import Meals from '../components/Meals';
+import Modal from './Modal';
 
 const MealsDisplay = () => {
-  const { meals, favorites, handleFavorites, search } = useContext(
+  const { meals, filteredMeals, open } = useContext(
     MealsContext
   ) as MealsContextType;
 
+<<<<<<< HEAD
   const [doubleClickTime, setDoubleClickTime] = useState<number | null>(null);
   const [mealToDelete, setMealToDelete] = useState<string | null>(null); // Popup control
 
@@ -136,10 +144,36 @@ const MealsDisplay = () => {
                   </div>
                 </section>
               )
+=======
+  return (
+    <>
+      <div className="bg-slate-50 min-h-svh py-20 relative">
+        {meals.length === 0 || filteredMeals.length === 0 ? (
+          <p
+            className={clsx(
+              'text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 mx-auto',
+              filteredMeals.length === 0 ? 'text-5xl' : 'text-8xl'
+>>>>>>> myfork/main
             )}
-        </div>
+          >
+            {meals.length === 0 ? 'Loading...' : 'No meals for this search'}
+          </p>
+        ) : (
+          <div className="max-sm:w-10/12 mx-auto flex flex-col flex-wrap justify-center gap-5 sm:flex-row">
+            {filteredMeals.length > 0 &&
+              filteredMeals.map((meal) => (
+                <Meals key={meal.idMeal} meal={meal} />
+              ))}
+          </div>
+        )}
+      </div>
+
+      {open && (
+        <Modal
+          meal={filteredMeals.find((meal) => meal.idMeal === open) as MealType}
+        />
       )}
-    </div>
+    </>
   );
 };
 
